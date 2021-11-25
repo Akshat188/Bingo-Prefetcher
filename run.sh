@@ -14,10 +14,10 @@ cd ChampSim
 
 
 #with L1D ipcp
-./build_champsim.sh bimodal no ipcp no no lru 1
+./build_champsim.sh bimodal no bingo_dpc3 next_line next_line lru 1
 
 for i in "${benchmarks[@]}"
 do
-	./run_champsim.sh bimodal-no-ipcp-no-no-lru-1core 10 10 "$i"
+	./run_champsim.sh bimodal-no-bingo_dpc3-next_line-next_line-lru-1core 10 10 "$i"
 done
 
