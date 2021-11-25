@@ -4,20 +4,20 @@ benchmarks=(600.perlbench_s-570B.champsimtrace.xz 605.mcf_s-994B.champsimtrace.x
 
 cd ChampSim
 
-#baseline
-./build_champsim.sh bimodal no no no no lru 1
+# #baseline
+# ./build_champsim.sh bimodal no no no no lru 1
+
+# for i in "${benchmarks[@]}"
+# do
+# 	./run_champsim.sh bimodal-no-no-no-no-lru-1core 10 10 "$i"
+# done
+
+
+#with L1D ipcp
+./build_champsim.sh bimodal no ipcp no no lru 1
 
 for i in "${benchmarks[@]}"
 do
-	./run_champsim.sh bimodal-no-no-no-no-lru-1core 10 10 "$i"
-done
-
-
-#with Bingo
-./build_champsim.sh bimodal no bingo_dpc3 no no lru 1
-
-for i in "${benchmarks[@]}"
-do
-	./run_champsim.sh bimodal-no-bingo_dpc3-no-no-lru-1core 10 10 "$i"
+	./run_champsim.sh bimodal-no-ipcp-no-no-lru-1core 10 10 "$i"
 done
 
