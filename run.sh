@@ -12,7 +12,7 @@ cd ChampSim
 # 	./run_champsim.sh bimodal-no-no-no-no-lru-1core 10 10 "$i"
 # done
 
-mods=( bingo_dpc3Mod6 )
+mods=( bingo_dpc3Mod8 bingo_dpc3Mod9)
 
 for j in "${mods[@]}"
 do
