@@ -744,7 +744,9 @@ class Bingo {
         FilterTable::Entry *entry = this->filter_table.find(region_number);
         if (!entry) {
             /* trigger access */
+            this->filter_table.insert(region_number, pc, 0);
             this->filter_table.insert(region_number, pc, region_offset);
+
             vector<int> pattern = this->find_in_pht(pc, block_number);
             if (pattern.empty()) {
                 /* nothing to prefetch */
@@ -755,18 +757,18 @@ class Bingo {
             this->pf_streamer.insert(region_number, pattern);
             return;
         }
-        if (entry->data.offset != region_offset) {
+        // if (entry->data.offset != region_offset) {
             /* move from filter table to accumulation table */
-            uint64_t region_number = hash_index(entry->key, this->filter_table.get_index_len());
-            AccumulationTable::Entry victim =
-                this->accumulation_table.insert(region_number, entry->data.pc, entry->data.offset);
-            this->accumulation_table.set_pattern(region_number, region_offset);
-            this->filter_table.erase(region_number);
-            if (victim.valid) {
-                /* move from accumulation table to PHT */
-                this->insert_in_pht(victim);
-            }
+        uint64_t region_number = hash_index(entry->key, this->filter_table.get_index_len());
+        AccumulationTable::Entry victim =
+            this->accumulation_table.insert(region_number, entry->data.pc, entry->data.offset);
+        this->accumulation_table.set_pattern(region_number, region_offset);
+        this->filter_table.erase(region_number);
+        if (victim.valid) {
+            /* move from accumulation table to PHT */
+            this->insert_in_pht(victim);
         }
+        // }
     }
 
     void eviction(uint64_t block_number) {
