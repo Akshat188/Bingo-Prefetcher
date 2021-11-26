@@ -744,9 +744,7 @@ class Bingo {
         FilterTable::Entry *entry = this->filter_table.find(region_number);
         if (!entry) {
             /* trigger access */
-            // this->filter_table.insert(region_number, pc, 0);
             this->filter_table.insert(region_number, pc, region_offset);
-
             vector<int> pattern = this->find_in_pht(pc, block_number);
             if (pattern.empty()) {
                 /* nothing to prefetch */
@@ -905,7 +903,6 @@ class Bingo {
             cerr << "[Bingo] find_in_pht(pc=0x" << hex << pc << ", address=0x" << address << ")" << dec << endl;
         }
         vector<vector<bool>> matches = this->pht.find(pc, address);
-        vector<vector<bool>> matches2 = this->pht.find(pc, 0);
         this->pht_access_cnt += 1;
         Event pht_last_event = this->pht.get_last_event();
         uint64_t region_number = address / this->pattern_len;
@@ -923,9 +920,6 @@ class Bingo {
         } else if (pht_last_event == PC_OFFSET) {
             this->pht_pc_offset_cnt += 1;
             pattern = this->vote(matches);
-            if(pattern.empty()){
-                pattern = this -> vote(matches2);
-            }
         } else if (pht_last_event == MISS) {
             this->pht_miss_cnt += 1;
         } else {

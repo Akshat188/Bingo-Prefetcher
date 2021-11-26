@@ -759,7 +759,7 @@ class Bingo {
         }
         // if (entry->data.offset != region_offset) {
             /* move from filter table to accumulation table */
-        uint64_t region_number = hash_index(entry->key, this->filter_table.get_index_len());
+        region_number = hash_index(entry->key, this->filter_table.get_index_len());
         AccumulationTable::Entry victim =
             this->accumulation_table.insert(region_number, entry->data.pc, entry->data.offset);
         this->accumulation_table.set_pattern(region_number, region_offset);
