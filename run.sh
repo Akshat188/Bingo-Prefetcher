@@ -12,12 +12,13 @@ cd ChampSim
 # 	./run_champsim.sh bimodal-no-no-no-no-lru-1core 10 10 "$i"
 # done
 
+mods=(bingo_dpc3Mod2 , bingo_dpc3Mod3 ,bingo_dpc3Mod4 , bingo_dpc3Mod5 )
 
-#with L1D ipcp
-./build_champsim.sh bimodal no bingo_dpc3 next_line next_line lru 1
-
-for i in "${benchmarks[@]}"
+for j in "${mods[@]}"
 do
-	./run_champsim.sh bimodal-no-bingo_dpc3-next_line-next_line-lru-1core 10 10 "$i"
+	./build_champsim.sh bimodal no "$j" no no lru 1
+	for i in "${benchmarks[@]}"
+	do
+		./run_champsim.sh bimodal-no-"$j"-no-no-lru-1core 10 10 "$i"
+	done
 done
-
